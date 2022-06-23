@@ -25,7 +25,9 @@ int main()
   // Value stored at a[0]
   cout << *p << endl;
 
+  cout << p << endl;
   p = p + 1;
+  cout << p << endl;
 
   // a cannot be reassigned
   // a = a + 1;

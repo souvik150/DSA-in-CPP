@@ -16,11 +16,11 @@ int main()
   cout << i << endl;
   cout << *p << endl;
 
-  // int a = i;
-  // a++;
-
-  int a = *p;
+  int a = i;
   a++;
+
+  // int a = *p;
+  // a++;
 
   cout << a << endl;
   cout << *p << endl;
