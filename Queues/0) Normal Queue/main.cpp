@@ -45,8 +45,9 @@ public:
     }
     else
     {
-      return data[front];
+      int ans = data[front];
       front++;
+      return ans;
     }
   }
 
@@ -73,6 +74,7 @@ int main()
   s.enqueue(40);
   s.enqueue(50);
 
+  cout << s.top() << endl;
   cout << s.dequeue() << endl;
   cout << s.dequeue() << endl;
   cout << s.dequeue() << endl;
