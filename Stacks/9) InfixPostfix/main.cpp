@@ -4,6 +4,7 @@
 
 using namespace std;
 
+int size = 0;
 int isOperand(char x)
 {
   if (x == '+' || x == '-' || x == '*' || x == '/' || x == '^' || x == '(' || x == ')')
@@ -61,6 +62,7 @@ int inPrecedence(char x)
 
 char *convert(char *infix)
 {
+  size = 0;
   char *postfix = new char[strlen(infix) + 1];
 
   stack<char> stk;
@@ -73,6 +75,7 @@ char *convert(char *infix)
     if (isOperand(infix[i]))
     {
       postfix[j++] = infix[i++];
+      size++;
     }
     else
     {
@@ -87,6 +90,7 @@ char *convert(char *infix)
       else
       {
         postfix[j++] = stk.top();
+        size++;
         stk.pop();
       }
     }
@@ -95,6 +99,7 @@ char *convert(char *infix)
   while (!stk.empty() && stk.top() != ')')
   {
     postfix[j++] = stk.top();
+    size++;
     stk.pop();
   }
 
@@ -103,10 +108,62 @@ char *convert(char *infix)
   return postfix;
 }
 
+int calculate(char *postfix)
+{
+  int num = 0;
+  int result = 0;
+
+  stack<char> stk;
+
+  for (int i = 0; i < size; i++)
+  {
+    if (isOperand(postfix[i]))
+    {
+      stk.push(postfix[i] - '0');
+    }
+    else
+    {
+      int b = stk.top();
+      stk.pop();
+      int a = stk.top();
+      stk.pop();
+
+      if (postfix[i] == '+')
+      {
+        result = a + b;
+        stk.push(result);
+      }
+      else if (postfix[i] == '-')
+      {
+        result = a - b;
+        stk.push(result);
+      }
+      else if (postfix[i] == '*')
+      {
+        result = a * b;
+        stk.push(result);
+      }
+      else if (postfix[i] == '/')
+      {
+        result = a / b;
+        stk.push(result);
+      }
+      else if (postfix[i] == '^')
+      {
+        result = a ^ b;
+        stk.push(result);
+      }
+    }
+  }
+
+  return stk.top();
+};
+
 int main()
 {
 
-  char infix[] = "((a+b)*c)-d^e^f";
-
+  char infix[] = "3*5+6/2-4";
   cout << convert(infix) << endl;
+  cout << size << endl;
+  cout << calculate(convert(infix)) << endl;
 }
