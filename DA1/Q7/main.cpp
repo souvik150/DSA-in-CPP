@@ -72,8 +72,8 @@ int main()
     cout << "Please select an action:\n";
     cout << "\t a: add a new student\n";
     cout << "\t d: display student list\n";
-    cout << "\t s: sort the students by GPA\n";
-    cout << "\t n: display students enrolled after given year\n";
+    cout << "\t s: sort the students by Roll Number\n";
+    cout << "\t n: display students than CGPA\n";
     cout << "\t q: quit\n";
     cin >> choice;
     cin.ignore();

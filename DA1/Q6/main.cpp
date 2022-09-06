@@ -164,6 +164,5 @@ int main()
 
   char infix[] = "3*5+6/2-4";
   cout << convert(infix) << endl;
-  cout << size << endl;
   cout << calculate(convert(infix)) << endl;
 }
