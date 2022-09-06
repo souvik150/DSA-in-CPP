@@ -31,9 +31,16 @@ public:
 
   void enqueueFront(int element)
   {
-    front = 0;
-    data[front] = element;
-    rear++;
+    if (data[front] != 0)
+    {
+      front = 0;
+      data[front] = element;
+      rear++;
+    }
+    else
+    {
+      cout << "Position occupied" << endl;
+    }
   }
 
   int dequeueFront()

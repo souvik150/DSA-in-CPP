@@ -44,7 +44,7 @@ public:
   {
     if (size == capacity)
     {
-      cout << "Queue Full ! " << endl;
+      cout << "Queue Full!" << endl;
       return;
     }
     data[nextIndex] = element;

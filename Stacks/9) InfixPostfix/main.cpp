@@ -5,6 +5,7 @@
 using namespace std;
 
 int size = 0;
+
 int isOperand(char x)
 {
   if (x == '+' || x == '-' || x == '*' || x == '/' || x == '^' || x == '(' || x == ')')
@@ -110,7 +111,6 @@ char *convert(char *infix)
 
 int calculate(char *postfix)
 {
-  int num = 0;
   int result = 0;
 
   stack<char> stk;
