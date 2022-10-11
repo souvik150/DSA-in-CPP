@@ -1,109 +1,85 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
-template <typename T>
-
-class QueueUsingArray
+class Queue
 {
-  T *data;
-  int nextIndex;
-  int firstIndex;
-  int size;
-  int capacity;
-
 public:
-  QueueUsingArray(int s)
-  {
-    data = new T[s];
-
-    // TO get the next index where to put update like (nextIndex = nextIndex + 1 % capacity)
-    nextIndex = 0;
-
-    // Need it to know start of queue as it can be circular and hence may change.
-    firstIndex = -1;
-
-    // Need this for size
-    size = 0;
-
-    // Need this for calculating the term after mod function
-    capacity = s;
-  }
-
-  int getSize()
-  {
-    return size;
-  }
-
-  bool isEmpty()
-  {
-    return size == 0;
-  }
-
-  // insert element
-  void enqueue(T element)
-  {
-    if (size == capacity)
-    {
-      cout << "Queue Full!" << endl;
-      return;
-    }
-    data[nextIndex] = element;
-    nextIndex = (nextIndex + 1) % capacity;
-    if (firstIndex == -1)
-    {
-      firstIndex = 0;
-    }
-    size++;
-  }
-
-  T front()
-  {
-    if (isEmpty())
-    {
-      cout << "Queue is empty ! " << endl;
-      return 0;
-    }
-    return data[firstIndex];
-  }
-
-  T dequeue()
-  {
-    if (isEmpty())
-    {
-      cout << "Queue is empty ! " << endl;
-      return 0;
-    }
-
-    T ans = data[firstIndex];
-    firstIndex = (firstIndex + 1) % capacity;
-    size--;
-
-    if (size == 0)
-    {
-      firstIndex = -1;
-      nextIndex = 0;
-    }
-
-    return ans;
-  }
+  int front, rear, size;
+  unsigned capacity;
+  int *array;
 };
+
+Queue *createQueue(unsigned capacity)
+{
+  Queue *queue = new Queue();
+  queue->capacity = capacity;
+  queue->front = queue->size = 0;
+
+  queue->rear = capacity - 1;
+  queue->array = new int[queue->capacity];
+  return queue;
+}
+
+int isFull(Queue *queue)
+{
+  return (queue->size == queue->capacity);
+}
+
+int isEmpty(Queue *queue)
+{
+  return (queue->size == 0);
+}
+
+void enqueue(Queue *queue, int item)
+{
+  if (isFull(queue))
+    return;
+  queue->rear = (queue->rear + 1) % queue->capacity;
+  queue->array[queue->rear] = item;
+  queue->size = queue->size + 1;
+  cout << item << " enqueued to queue\n";
+}
+
+int dequeue(Queue *queue)
+{
+  if (isEmpty(queue))
+    return INT_MIN;
+  int item = queue->array[queue->front];
+  queue->front = (queue->front + 1) % queue->capacity;
+  queue->size = queue->size - 1;
+  return item;
+}
+
+int front(Queue *queue)
+{
+  if (isEmpty(queue))
+    return INT_MIN;
+  return queue->array[queue->front];
+}
+
+int rear(Queue *queue)
+{
+  if (isEmpty(queue))
+    return INT_MIN;
+  return queue->array[queue->rear];
+}
 
 int main()
 {
-  QueueUsingArray<int> q(5);
+  Queue *queue = createQueue(1000);
 
-  q.enqueue(10);
-  q.enqueue(20);
-  q.enqueue(30);
-  q.enqueue(40);
-  q.enqueue(50);
-  q.enqueue(60);
+  enqueue(queue, 10);
+  enqueue(queue, 20);
+  enqueue(queue, 30);
+  enqueue(queue, 40);
 
-  cout << q.front() << endl;
-  cout << q.dequeue() << endl;
-  cout << q.dequeue() << endl;
-  cout << q.dequeue() << endl;
+  cout << dequeue(queue)
+       << " dequeued from queue\n";
 
-  cout << q.getSize() << endl;
-  cout << q.isEmpty() << endl;
-};
+  cout << "Front item is "
+       << front(queue) << endl;
+  cout << "Rear item is "
+       << rear(queue) << endl;
+
+  return 0;
+}

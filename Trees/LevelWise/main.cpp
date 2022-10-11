@@ -23,7 +23,6 @@ TreeNode<int> *takeInputLevelWise()
   cin >> rootData;
 
   TreeNode<int> *root = new TreeNode<int>(rootData);
-
   queue<TreeNode<int> *> pendingNodes;
 
   pendingNodes.push(root);

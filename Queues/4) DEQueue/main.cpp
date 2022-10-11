@@ -1,110 +1,173 @@
 #include <iostream>
 using namespace std;
 
-class DEQueue
+#define MAX 10
+
+class Deque
 {
-  int *data;
+  int arr[MAX];
   int front;
   int rear;
   int size;
-  int capacity;
 
 public:
-  DEQueue(int s)
+  Deque(int size)
   {
-    data = new int[s];
     front = -1;
     rear = 0;
-    size = 0;
-    capacity = s;
+    this->size = size;
   }
 
-  int sizeOf()
-  {
-    return size;
-  }
-
-  bool isEmpty()
-  {
-    return size == 0;
-  }
-
-  void enqueueFront(int element)
-  {
-    if (data[front] != 0)
-    {
-      front = 0;
-      data[front] = element;
-      rear++;
-    }
-    else
-    {
-      cout << "Position occupied" << endl;
-    }
-  }
-
-  int dequeueFront()
-  {
-    if (front == -1)
-    {
-      cout << "Queue Empty!" << endl;
-      return -1;
-    }
-    else
-    {
-      int ans = data[front];
-      front++;
-      return ans;
-    }
-  }
-
-  void enqueueRear(int element)
-  {
-    if (rear == capacity)
-    {
-      cout << "Queue Full!" << endl;
-    }
-    data[rear] = element;
-    rear++;
-  }
-
-  int dequeueRear()
-  {
-    if (rear == -1)
-    {
-      cout << "Queue Empty!" << endl;
-      return -1;
-    }
-    int ans = data[rear];
-    rear--;
-    return ans;
-  }
-
-  void display()
-  {
-    for (int i = 0; i < rear; i++)
-    {
-      cout << data[i] << " ";
-    }
-    cout << endl;
-  }
+  void insertfront(int key);
+  void insertrear(int key);
+  void deletefront();
+  void deleterear();
+  bool isFull();
+  bool isEmpty();
+  int getFront();
+  int getRear();
 };
+
+bool Deque::isFull()
+{
+  return ((front == 0 && rear == size - 1) ||
+          front == rear + 1);
+}
+
+bool Deque::isEmpty()
+{
+  return (front == -1);
+}
+
+void Deque::insertfront(int key)
+{
+  if (isFull())
+  {
+    cout << "Overflow\n"
+         << endl;
+    return;
+  }
+
+  if (front == -1)
+  {
+    front = 0;
+    rear = 0;
+  }
+
+  else if (front == 0)
+    front = size - 1;
+
+  else
+    front = front - 1;
+
+  arr[front] = key;
+}
+
+void Deque ::insertrear(int key)
+{
+  if (isFull())
+  {
+    cout << " Overflow\n " << endl;
+    return;
+  }
+
+  if (front == -1)
+  {
+    front = 0;
+    rear = 0;
+  }
+
+  else if (rear == size - 1)
+    rear = 0;
+
+  else
+    rear = rear + 1;
+
+  arr[rear] = key;
+}
+
+void Deque ::deletefront()
+{
+  if (isEmpty())
+  {
+    cout << "Queue Underflow\n"
+         << endl;
+    return;
+  }
+
+  if (front == rear)
+  {
+    front = -1;
+    rear = -1;
+  }
+  else if (front == size - 1)
+    front = 0;
+
+  else
+    front = front + 1;
+}
+
+void Deque::deleterear()
+{
+  if (isEmpty())
+  {
+    cout << " Underflow\n"
+         << endl;
+    return;
+  }
+
+  if (front == rear)
+  {
+    front = -1;
+    rear = -1;
+  }
+  else if (rear == 0)
+    rear = size - 1;
+  else
+    rear = rear - 1;
+}
+
+int Deque::getFront()
+{
+  if (isEmpty())
+  {
+    cout << " Underflow\n"
+         << endl;
+    return -1;
+  }
+  return arr[front];
+}
+
+int Deque::getRear()
+{
+  if (isEmpty() || rear < 0)
+  {
+    cout << " Underflow\n"
+         << endl;
+    return -1;
+  }
+  return arr[rear];
+}
 
 int main()
 {
-  DEQueue q(5);
-  cout << q.dequeueFront() << endl;
-  q.enqueueFront(10);
-  q.enqueueRear(20);
-  q.enqueueRear(30);
-  q.enqueueRear(40);
-  q.enqueueRear(50);
-  q.display(); // 10,20,30,40,50
-  q.enqueueRear(50);
-  cout << q.dequeueFront() << endl;
-  q.enqueueFront(60);
-  q.display();
-  cout << q.dequeueRear() << endl;
-  q.enqueueRear(70);
-  q.display();
+  Deque dq(4);
+
+  dq.insertrear(10);
+  dq.insertrear(3);
+
+  cout << dq.getRear() << endl;
+
+  dq.deleterear();
+  cout << dq.getRear() << endl;
+
+  cout << "insert element at front end \n";
+
+  dq.insertfront(6);
+
+  cout << "front element: " << dq.getFront() << endl;
+
+  dq.deletefront();
+
+  cout << "after deletion of front element new front element: " << dq.getFront() << endl;
 }

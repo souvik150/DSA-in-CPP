@@ -138,6 +138,7 @@ int Delete_Record(int roll)
 
     return 0;
   }
+  return -1;
 };
 
 void Show_Record()
